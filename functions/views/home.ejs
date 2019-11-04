@@ -2,7 +2,37 @@
 <html>
     <head>
         <title>Marvel Superhero Index</title>
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
+        <script src="/__/firebase/7.2.2/firebase-auth.js"></script>
+        <script src="/__/firebase/7.2.3/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-database.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+            https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-analytics.js"></script>
+
+        <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyAHQ4yvwNA4fKT6muDDiMuvaSH9kIhXOiQ",
+            authDomain: "marvelousproject-b02cb.firebaseapp.com",
+            databaseURL: "https://marvelousproject-b02cb.firebaseio.com",
+            projectId: "marvelousproject-b02cb",
+            storageBucket: "marvelousproject-b02cb.appspot.com",
+            messagingSenderId: "543638853663",
+            appId: "1:543638853663:web:6d9e66db29a80694d59d2a",
+            measurementId: "G-KW4PP4ZR1L"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+
+        </script>
+        <link rel="stylesheet" href="./css/home_style.css">
+
     </head>
+    
     <body>
         <h1>Search superhero</h1>
         <p>Will appear here shortly</p>
@@ -11,5 +41,23 @@
             <p>Enter your mania: <input name = "mania"/> </p>
             <button type = "submit">Submit</button>
         </form>
+
+        
+
+        <button onclick = {signInWithGoogle()}>
+            Sign In With Google
+        </button>
+
+        <button onclick = {signOut()}>
+                Sign Out
+            </button>
+
+            
+ 
+
+        <script src ="./js/firebaseAuth.js"></script>
+        <script src ="./js/saveFavouriteHero.js"></script>
+        <script src ="./js/removeFavouritedHero.js"></script>     
+        
     </body>
 </html>
