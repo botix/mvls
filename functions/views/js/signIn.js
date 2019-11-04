@@ -14,8 +14,9 @@ function signInWithGoogle(){
 }
 
 function redirectAfterLogin(data){
-    (async () => {
-          await fetch("http://localhost:5000/a", {
+    ( async () => {
+       const destination =
+        await fetch("http://localhost:5000/home", {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -23,7 +24,7 @@ function redirectAfterLogin(data){
           },
           body: JSON.stringify({"uid": data.user.uid})
         });
-
+       window.location.href = destination.url
       })();
 }
 

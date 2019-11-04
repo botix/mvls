@@ -1,4 +1,5 @@
 const express = require ("express");
+const path = require('path');
 
 const admin = require("firebase-admin")
 const functions = require('firebase-functions');
@@ -15,7 +16,7 @@ const app = express();
 express.json({limit : "1mb"}); 
 app.set("view engine", "ejs")
 app.use(express.static("views"))
-app.set("views", __dirname + "/views")
+app.set('views', path.join(__dirname, 'views')); 
 
 
 
@@ -30,9 +31,15 @@ app.set("views", __dirname + "/views")
 //     }
 // });
 
-// app.get('/login', (req, res) => {  
-//     res.render("login.ejs");   
-// });
+ app.get('/login', (req, res) => {
+     console.log("DIGN")  
+     res.render("login.ejs");   
+    });
+
+app.use("/home", (req, res)=>{
+    console.log("Incoming")
+    res.redirect("/a")
+})
 
 // app.get("/favouriteHeroes", (req, res) =>{
 //     const heroRef = database.ref("/HcpCdkoBG9eDQStwBQl8ZxRdY4I2")

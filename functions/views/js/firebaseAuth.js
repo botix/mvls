@@ -10,9 +10,10 @@ function checkIfLoggedIn(){
 
         } else {
             console.log("User should log in to interact with the site")
+            
             //Instruct user to login 
-          
-
+            window.location.href=("http://localhost:5000/login")
+            
         }
     })
 }
