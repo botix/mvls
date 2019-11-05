@@ -18,26 +18,21 @@ app.set("view engine", "ejs")
 app.use(express.static("views"))
 app.set('views', path.join(__dirname, 'views')); 
 
+app.get('/login', (req, res) => {
+    res.set("Cache-Control", "public, max-age-300, s-maxage-600")
+    res.render("login.ejs");   
+   });
 
-
-
-// app.use((req, res, next) => { 
-//     console.log("body", req.body.uid)      
-//     if(!req.body.uid) {     
-//         res.redirect('/login');
+// app.use( (req, res, next) => {
+//     if(!req.body.uid){
+//         res.redirect("/login")
 //     } else {
-        
-//         next();
+//         next()
 //     }
-// });
+// })
 
- app.get('/login', (req, res) => {
-     console.log("DIGN")  
-     res.render("login.ejs");   
-    });
-
-app.use("/home", (req, res)=>{
-    console.log("Incoming")
+app.post("/home", (req, res)=>{
+  
     res.redirect("/a")
 })
 
@@ -50,12 +45,14 @@ app.use("/home", (req, res)=>{
 // })
 
 app.get("/a", (req, res)=>{
+    console.log("3",req.body.uid)
     res.set("Cache-Control", "public, max-age-300, s-maxage-600")
-    console.log("HEEEELOOOO")
-
     res.render("home.ejs")
 })
 
+app.get("/favorites", (req, res) =>{
+    res.render("favouriteHeroes.ejs")
+})
 
 
 app.post("/marvel", (req, res)=>{

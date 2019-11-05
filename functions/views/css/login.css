@@ -1,4 +1,12 @@
-body { padding: 2em; }
+body { 
+  padding: 2em;
+  font-family: 'Marvel', sans-serif;
+  background-color: #000;
+  background-image: url("../images/loginIM.jpg");
+  background-size: cover;
+  color: #FFF;
+  background-repeat: no-repeat;
+}
 
 
 /* Shared */
@@ -13,7 +21,8 @@ body { padding: 2em; }
   line-height: 34px;
   white-space: nowrap;
   border-radius: 0.2em;
-  font-size: 16px;
+  font-family: 'Marvel', sans-serif;
+  font-size: 18px;
   color: #FFF;
 }
 .loginBtn:before {
@@ -64,3 +73,5 @@ body { padding: 2em; }
 .loginBtn--google:focus {
   background: #E74B37;
 }
+
+

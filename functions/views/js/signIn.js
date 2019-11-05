@@ -1,10 +1,9 @@
-function signInWithGoogle(){
+
+  function signInWithGoogle(){
     var googleAuthProvider = new firebase.auth.GoogleAuthProvider;
     firebase.auth().signInWithPopup(googleAuthProvider)
             .then(data => {
                 redirectAfterLogin(data)
-                console.log("123")
-                console.log(data.user.uid)
                 return null;
             })
             .catch(err => {
@@ -24,7 +23,9 @@ function redirectAfterLogin(data){
           },
           body: JSON.stringify({"uid": data.user.uid})
         });
+        console.log(data.user.uid)
        window.location.href = destination.url
       })();
 }
+
 

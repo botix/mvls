@@ -19,18 +19,21 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         
-        </script>
+        </script> 
 
+        <link href="https://fonts.googleapis.com/css?family=Marvel&display=swap" rel="stylesheet">
         <link rel = "stylesheet" href = "css/login.css">
     </head>
 
 
     <body>
         <h3>
-            PLEASE LOGIN
+            It seems you are not logged in... 
+            To proceed please do
         </h3>
-        <button class="loginBtn loginBtn--facebook">
-            Login with Facebook
+        <div class = "loginBtnContainer">
+            <button class="loginBtn loginBtn--facebook">
+                Login with Facebook
             </button>
 
             <button 
@@ -39,9 +42,9 @@
             >
             Login with Google
             </button>  
+        </div>
 
-
-        <script src = "./js/signIn.js"></script>
+         <script src = "./js/signIn.js"></script> 
 
     </body>
 </html>
