@@ -4,14 +4,6 @@ const marked = document.querySelector(".marked")
 
 
 
-let globalSettings ={
-    paginationCounter: 0,
-    requirePicture: true,
-    requireDescription: false,
-    offset: 0,
-}
-
-console.log(globalSettings.paginationCounter)
 
 jarvis.addEventListener("click", (e) => {
     //e.stopPropagation()
@@ -24,5 +16,6 @@ heroes.addEventListener("mouseover", (e)=>{
     // e.stopPropagation()
     // console.log(e)
 })
+
 
 

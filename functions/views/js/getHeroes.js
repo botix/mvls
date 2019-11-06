@@ -88,18 +88,24 @@ function displayHeroes(validatedHeroes){
                     const heroCard = document.createElement("div")
                     const imageUrl = `${hero.path}/portrait_xlarge.jpg`
                     heroCard.innerHTML =  ` 
-                        <div class="card-container" id ="${hero.id}">
+                        <div class="card_container">
                             <img
+                            id ="${hero.id}"
+                            class="hero_image" 
                             alt="http://marvel.com"
                             src=${imageUrl}
                             />
-                            <h5 > ${hero.name}</h5>
+                            <h5>${hero.name}</h5>
                             <p> ${hero.description} </p>
                             </div>`
                     
                     display.appendChild(heroCard)
                 } 
             });  
+        },
+
+        highlightFavorites(){
+            
         }
     }
 }
