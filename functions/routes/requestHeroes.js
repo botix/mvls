@@ -34,7 +34,6 @@ router.post("/", async (req, res)=>{
     })
     
   
-    //send a response rendering the page for the user using ejs
 })
 
 

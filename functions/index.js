@@ -36,26 +36,11 @@ app.post("/home", (req, res)=>{
     res.redirect("/a")
 })
 
-// app.get("/favouriteHeroes", (req, res) =>{
-//     const heroRef = database.ref("/HcpCdkoBG9eDQStwBQl8ZxRdY4I2")
-    
-//     heroRef.once("value", snapshot =>{
-//         res.render("favouriteHeroes.ejs", {favouriteHeroes: snapshot.val()})
-//     })
-// })
 
 app.get("/a", (req, res)=>{
     console.log("3",req.body.uid)
     res.set("Cache-Control", "public, max-age-300, s-maxage-600")
     res.render("home.ejs")
-})
-
-app.get("/favorites", (req, res) =>{
-    res.render("favouriteHeroes.ejs")
-})
-
-
-app.post("/marvel", (req, res)=>{
 })
 
 

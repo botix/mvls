@@ -16,9 +16,11 @@ function calculateScreenSize(){
 
 }
 
-async function getHeroes(flag = false){
+async function getHeroes(returnOnlyValidatedData = false){
     var userId = firebase.auth().currentUser.uid
     if(!userId) return true;
+
+    globalSettings.favoriteHeroes = await getFavouriteHero()
 
     let heroesToDisplay = null;
     heroesToDisplay =
@@ -35,17 +37,15 @@ async function getHeroes(flag = false){
                 })
             })
             .then(response => response.json())
-            .then(data => data)
+            .then(data => data) 
             .catch(err =>{
                 console.log(err)
             })
      
     const validatedHeroes = validateHeroes(heroesToDisplay)
 
-    if(flag){ 
-        console.log("1", validatedHeroes)
+    if(returnOnlyValidatedData){
         return validatedHeroes
-        
     }
 
     return displayHeroes(validatedHeroes)
@@ -56,7 +56,9 @@ async function getHeroes(flag = false){
 function displayHeroes(validatedHeroes){
     
     let data = validatedHeroes
-    console.log(data)
+    const backupData = validatedHeroes
+   
+
     const display = document.querySelector(".display_container")
     const limit = calculateScreenSize()
 
@@ -71,29 +73,41 @@ function displayHeroes(validatedHeroes){
         renderHeroes(){
             const displayCondition1 = limit * globalSettings.paginationCounter
             const displayCondition2 = limit * (globalSettings.paginationCounter + 1)
-            console.log(displayCondition1, displayCondition2)
-            data.forEach( async(hero,index) =>{
 
-                if(displayCondition2 > data.length-1 && index === data.length-1){ 
+            if(globalSettings.renderFavorites === true){
+                data = updateFavouriteHeroData()
+               
+            }else{
+                data = backupData
+            }
+            
+            data.forEach(async(hero,index) =>{
+               
+                if(displayCondition2 > data.length-1 && 
+                    index === data.length-1 && 
+                    globalSettings.renderFavorites == false) 
+                {
                     resetDisplayVariables()
-                    console.log("Hey", data)
                     data = "await new data"
                     data = await getHeroes(true)
-                    console.log(data)
-                    
                 } 
 
-                if(index >= displayCondition1  && index < displayCondition2){
+                if((index >= displayCondition1  && 
+                    index < displayCondition2) || 
+                    globalSettings.renderFavorites === true){
         
                     const heroCard = document.createElement("div")
-                    const imageUrl = `${hero.path}/portrait_xlarge.jpg`
+                    let imageUrl = globalSettings.renderFavorites === false ?
+                                     `${hero.path}/portrait_xlarge.jpg` : hero.path
+                                    
                     heroCard.innerHTML =  ` 
                         <div class="card_container">
                             <img
                             id ="${hero.id}"
                             class="hero_image" 
                             alt="http://marvel.com"
-                            src=${imageUrl}
+                            name = "${hero.name}"
+                            src= ${imageUrl}
                             />
                             <h5>${hero.name}</h5>
                             <p> ${hero.description} </p>
@@ -101,11 +115,12 @@ function displayHeroes(validatedHeroes){
                     
                     display.appendChild(heroCard)
                 } 
+           
             });  
         },
 
-        highlightFavorites(){
-            
+       async refreshFavorites(){
+            globalSettings.favoriteHeroes = await getFavouriteHero()
         }
     }
 }
@@ -115,20 +130,32 @@ function validateHeroes(data){
     let validatedHeroes = [];
 
     data.forEach(hero =>{
-        const noPicture = hero.path.match(/image_not_available/i)
+            const noPicture = hero.path.match(/image_not_available/i)
+            if(!noPicture){
+                validatedHeroes.push(hero)
+            }
+        })
 
-        if(!noPicture){
-            validatedHeroes.push(hero)
-        }
-
-    })
-
-    return validatedHeroes
-   
+    return validatedHeroes  
 }
 
 function resetDisplayVariables(){
     globalSettings.paginationCounter = 0;
     globalSettings.offset += 100
+}
+
+function updateFavouriteHeroData(){
+    let favoriteHeroes =[]
+
+    globalSettings.favoriteHeroes.forEach(hero =>{
+        favoriteHeroes.push({
+            id: hero[0],
+            name:hero[2],
+            description:"",
+            path:hero[1]
+        })
+    })
+    
+    return favoriteHeroes;
 }
 

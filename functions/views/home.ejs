@@ -46,27 +46,18 @@
             </div>
         </div>
 
-        <div class = "display_container">
- 
-
-        </div>
-  
+        <div class = "display_container"></div>
+        <p class ="pagination_left" > &lt </p> 
+        <p class ="pagination_right"> &gt </p>
            
-            <p class ="pagination_left" > &lt </p> 
-            <p class ="pagination_right"> &gt </p>
-           
-        
-
         <svg width="100" height="100" class="jarvis-like">
+
         <defs>
         <filter id="light-circle">
             <feGaussianBlur result="blurred" in="SourceGraphic" stdDeviation="1" />
         </filter>
-        <!-- <filter id="light-triangle">
-            <feGaussianBlur stdDeviation="2" in="SourceGraphic" result="blur2" />
-            <feComposite in="SourceAlpha" in2="offOut" operator="arithmetic" k1="1" k2="1" k3="1" k4="0" />
-        </filter> -->
         </defs>
+
         <!-- circle outer -->
         <circle cx="50" cy="50" r="37" style="fill: transparent;stroke: #B4F6FB;stroke-width: 2; stroke-dasharray: 50, 5"></circle>
         <circle cx="50" cy="50" r="35" style="fill: transparent;stroke: #64E6EF;stroke-width: 1.5;"></circle>
@@ -85,30 +76,10 @@
         <!-- triangle primary -->
         
     </svg>
-    
-
-            
-        <script src ="./js/manipulate.js"></script>     
-        <script src ="./js/getHeroes.js"></script>
+             
+        <script src ="./js/makeDisplayObject.js"></script>
         <script src ="./js/firebaseAuth.js"></script>
         <script src ="./js/updateFavouriteHero.js"></script>
-        <script src ="./js/removeFavouritedHero.js"></script>
-        
-        
-        
-        
+       
     </body>
 </html>
-<!-- 
-
-<h1>Search superhero</h1>
-<p>Will appear here shortly</p>
-
-<form method ="POST">
-    <p>Enter your mania: <input name = "mania"/> </p>
-    <button type = "submit">Submit</button>
-</form>
-
-<button onclick = {signOut()}>
-        Sign Out
-    </button> -->

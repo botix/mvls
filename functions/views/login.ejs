@@ -27,24 +27,28 @@
 
 
     <body>
-        <h3>
-            It seems you are not logged in... 
-            To proceed please do
-        </h3>
-        <div class = "loginBtnContainer">
-            <button class="loginBtn loginBtn--facebook">
-                Login with Facebook
-            </button>
+        <div>
+            <h3 class ="ironman_text">
+                Here's the deal... I have built a very powerful, but still experimental guided
+                missile system, imbued with magic, courtesy of Dr.Strange...
+                I think I can clear our way out of this mess, but I need your help.
+                My suit has been damaged, and Jarvis' systems are not fully operational, so
+                use this interface to gain access to Jarvis data, and click on the images
+                of heroes you would not like to see a target of my awesome mountain melting system.
+                    All else shall perish...
+            </h3>
+            
+            <div class = "loginBtnContainer">
 
-            <button 
-                class="loginBtn loginBtn--google"
-                onclick = {signInWithGoogle()}
-            >
-            Login with Google
-            </button>  
+                <button 
+                    class="loginBtn loginBtn--google"
+                    onclick = {signInWithGoogle()}
+                >
+                Login with Google
+                </button>  
+            </div>
+
+            <script src = "./js/signIn.js"></script> 
         </div>
-
-         <script src = "./js/signIn.js"></script> 
-
     </body>
 </html>

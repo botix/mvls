@@ -1,5 +1,8 @@
 const navigateLeft = document.querySelector(".pagination_left")
 const navigateRight= document.querySelector(".pagination_right")
+const jarvis= document.querySelector(".jarvis-like")
+const allHeroes = document.querySelector(".heroes")
+const myFavorites = document.querySelector(".marked")
 const exit = document.querySelector(".exit")
 
 let globalSettings ={
@@ -7,66 +10,92 @@ let globalSettings ={
     requirePicture: true,
     requireDescription: false,
     offset: 0,
-    favoriteHeroes: [],
+    favoriteHeroes: null,
+    renderFavorites: false,
+    isNavigationVisible: true
 }
 
 function checkIfLoggedIn(){
     firebase.auth().onAuthStateChanged(async (user) => {
         if(user){
 
-        const displayObject = await getHeroes()
-        function updateView(){
-            displayObject.clearDisplay()
-            displayObject.renderHeroes()
-            displayObject.highlightFavorites()
-        }
+            let displayObject = await getHeroes()
 
-        updateView()
-      
-        navigateLeft.addEventListener("click", (e) =>{
-           e.stopPropagation();
-           globalSettings.paginationCounter--;
-           globalSettings.paginationCounter < 0 ? globalSettings.paginationCounter = 0 : globalSettings.paginationCounter
-           
-           updateView()
-       })
-       
-       navigateRight.addEventListener("click", (e) =>{
-           e.stopPropagation();
-           globalSettings.paginationCounter++;
-           
-           updateView()
-       })
-    
-       exit.addEventListener("click", e =>{
-           e.stopPropagation()
-           signOut()
-       })
-    
-       const heroCard = document.querySelector(".display_container")
-       heroCard.addEventListener("click", (e) =>{
-           e.stopPropagation()
-           const uniqueHeroId = e.target.id
+            function updateView(){
+                displayObject.clearDisplay()
+                displayObject.renderHeroes()
+                displayObject.refreshFavorites()
+            }
 
-           if(uniqueHeroId){
-                updateFavouriteHero(uniqueHeroId)
-           }
-       })
-    
+            updateView()
+        
+            navigateLeft.addEventListener("click", (e) =>{
+                e.stopPropagation();
+                globalSettings.paginationCounter--;
+                globalSettings.paginationCounter < 0 ? globalSettings.paginationCounter = 0 : globalSettings.paginationCounter
+                globalSettings.renderFavorites = false
+
+                updateView()
+            })
+        
+            navigateRight.addEventListener("click", (e) =>{
+                e.stopPropagation();
+                globalSettings.paginationCounter++;
+                globalSettings.renderFavorites = false
+
+                updateView()
+            })
+            
+            exit.addEventListener("click", e =>{
+                e.stopPropagation()
+                signOut()
+            })
+            
+            const heroCard = document.querySelector(".display_container")
+            heroCard.addEventListener("click", async (e) =>{
+                e.stopPropagation()
+                const uniqueHeroId = e.target.id
+                const heroName = e.target.name
+                const heroImg = e.target.src
+
+                if(uniqueHeroId){
+                        await updateFavouriteHero(uniqueHeroId, heroName, heroImg)
+                        updateView()
+                }
+            })
+            
+            myFavorites.addEventListener("click", async (e)=>{
+                e.stopPropagation()
+                globalSettings.renderFavorites = true
+
+                toggleNavigationButtons()
+                updateView()
+            })
+            
+            allHeroes.addEventListener("click", async (e)=>{
+                e.stopPropagation()
+                globalSettings.renderFavorites = false
+                
+                if(globalSettings.isNavigationVisible){
+                    toggleNavigationButtons()
+                }
+                updateView()
+            })
         
 
         } else {
-            console.log("User should log in to interact with the site")
-            
-            //Instruct user to login 
             window.location.href=("http://localhost:5000/login")
-            
         }
     })
 }
 
 function signOut(){
     firebase.auth().signOut()
+}
+
+function toggleNavigationButtons(){
+    navigateLeft.classList.toggle("hide")
+    navigateRight.classList.toggle("hide")
 }
 
 
