@@ -7,7 +7,6 @@ let database = admin.firestore();
 
 router.post("/", async (req, res)=>{
    
-    // in the request, as the user is traversing the pages on the frontend, send limit and offset data
     const apiEndpoint = "v1/public/characters"
     const { limit, offset } = req.body 
     const destination = createRequest(apiEndpoint, limit, offset)
@@ -30,6 +29,7 @@ router.post("/", async (req, res)=>{
             arrayOfHeroes.push(heroCredentials)
         })
 
+        
         res.send(arrayOfHeroes)    
     })
     

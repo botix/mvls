@@ -12,7 +12,7 @@ let globalSettings ={
     offset: 0,
     favoriteHeroes: null,
     renderFavorites: false,
-    isNavigationVisible: true
+    isNavigationVisible: true,
 }
 
 function checkIfLoggedIn(){
@@ -21,7 +21,7 @@ function checkIfLoggedIn(){
 
             let displayObject = await getHeroes()
 
-            function updateView(){
+            const updateView = () => {
                 displayObject.clearDisplay()
                 displayObject.renderHeroes()
                 displayObject.refreshFavorites()
@@ -81,7 +81,8 @@ function checkIfLoggedIn(){
                 }
                 updateView()
             })
-        
+
+            
 
         } else {
             window.location.href=("http://localhost:5000/login")

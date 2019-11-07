@@ -12,19 +12,19 @@ function calculateScreenSize(){
     const fitVerticaly = avHeight / 225;
     const fitHorizontaly = avWidth / 150
    
-    return Math.floor(fitVerticaly)*Math.floor(fitHorizontaly)
+    return Math.floor(fitVerticaly) * Math.floor(fitHorizontaly)
 
 }
 
 async function getHeroes(returnOnlyValidatedData = false){
     var userId = firebase.auth().currentUser.uid
-    if(!userId) return true;
+    if(!userId) return;
 
     globalSettings.favoriteHeroes = await getFavouriteHero()
 
     let heroesToDisplay = null;
     heroesToDisplay =
-        await fetch("http://localhost:5000//requestHeroes", {
+        await fetch("http://localhost:5000/requestHeroes", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -56,7 +56,7 @@ async function getHeroes(returnOnlyValidatedData = false){
 function displayHeroes(validatedHeroes){
     
     let data = validatedHeroes
-    const backupData = validatedHeroes
+    let backupData = validatedHeroes
    
 
     const display = document.querySelector(".display_container")
@@ -82,42 +82,28 @@ function displayHeroes(validatedHeroes){
             }
             
             data.forEach(async(hero,index) =>{
-               
-                if(displayCondition2 > data.length-1 && 
-                    index === data.length-1 && 
-                    globalSettings.renderFavorites == false) 
-                {
+                
+                const requestNewDataFromMarvelApi = displayCondition2 >= data.length-1 && 
+                                                    index === data.length-2 && 
+                                                    globalSettings.renderFavorites === false 
+                            
+                const displaystoredData =  index >= displayCondition1  && 
+                                           index < displayCondition2 || 
+                                           globalSettings.renderFavorites === true
+                
+                const heroIsFavorited = globalSettings.favoriteHeroes.some(favHero=>{
+                    return hero.id === parseInt(favHero[0])
+                })
+                
+                if(requestNewDataFromMarvelApi) {
                     resetDisplayVariables()
-                    data = "await new data"
-                    data = await getHeroes(true)
-                } 
-
-                if((index >= displayCondition1  && 
-                    index < displayCondition2) || 
-                    globalSettings.renderFavorites === true){
-        
-                    const heroCard = document.createElement("div")
-                    let imageUrl = globalSettings.renderFavorites === false ?
-                                     `${hero.path}/portrait_xlarge.jpg` : hero.path
-                                    
-                    heroCard.innerHTML =  ` 
-                        <div class="card_container">
-                            <img
-                            id ="${hero.id}"
-                            class="hero_image" 
-                            alt="http://marvel.com"
-                            name = "${hero.name}"
-                            src= ${imageUrl}
-                            />
-                            <h5>${hero.name}</h5>
-                            <p> ${hero.description} </p>
-                            </div>`
-                    
-                    display.appendChild(heroCard)
-                } 
-           
-            });  
-        },
+                    backupData = await getHeroes(true)
+                   
+                } else if(displaystoredData){
+                    injectHeroes(hero, display, heroIsFavorited)
+                }
+            });//end forEach  
+        },//end method
 
        async refreshFavorites(){
             globalSettings.favoriteHeroes = await getFavouriteHero()
@@ -145,7 +131,7 @@ function resetDisplayVariables(){
 }
 
 function updateFavouriteHeroData(){
-    let favoriteHeroes =[]
+    let favoriteHeroes = []
 
     globalSettings.favoriteHeroes.forEach(hero =>{
         favoriteHeroes.push({
@@ -159,3 +145,26 @@ function updateFavouriteHeroData(){
     return favoriteHeroes;
 }
 
+function injectHeroes(hero, display, heroIsFavorited){
+    const heroCard = document.createElement("div")
+    let imageUrl = globalSettings.renderFavorites === false ?
+                     `${hero.path}/portrait_xlarge.jpg` : hero.path
+
+    const favoritedHeroModifier = heroIsFavorited ? "favorited_hero_card_modifier" : ""
+    
+                    
+    heroCard.innerHTML =  ` 
+        <div class="card_container">
+            <img
+            id ="${hero.id}"
+            class="hero_image ${favoritedHeroModifier}" 
+            alt="http://marvel.com"
+            name = "${hero.name}"
+            src= ${imageUrl}
+            />
+            <h5 class =${favoritedHeroModifier}>${hero.name}</h5>
+            <p>${hero.description}</p>
+            </div>`
+    
+    display.appendChild(heroCard)
+}

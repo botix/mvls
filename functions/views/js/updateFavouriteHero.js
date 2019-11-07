@@ -14,8 +14,7 @@ async function updateFavouriteHero(uniqueHeroId, heroName, heroImg){
         database.collection(userId)
                 .doc(uniqueHeroId)
                 .delete()
-        
-
+                
     } else {
         database.collection(userId)
                 .doc(uniqueHeroId)
@@ -48,6 +47,7 @@ async function getFavouriteHero(){
                     const result = doc.data()
                     resultArr.push(Object.values(result))
                 })
+                return null
             })
      
     return resultArr

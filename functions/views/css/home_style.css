@@ -173,13 +173,11 @@
     opacity: 0.95;
   }
 
-  .favorited_hero_text{
-      color: goldenrod;
-  }
-  .favorited_hero_image_border{
-      border: 1px sold goldenrod;   
-  }
 
+  .favorited_hero_card_modifier{
+      border: 3px solid goldenrod;
+      color: goldenrod;   
+  }
 
   @media (max-width: 380px){
       .jarvis_nav{
@@ -199,3 +197,4 @@
           font-size: 0.9rem;
       }
   }
+
