@@ -20,11 +20,11 @@ async function getHeroes(returnOnlyValidatedData = false){
     var userId = firebase.auth().currentUser.uid
     if(!userId) return;
 
-    globalSettings.favoriteHeroes = await getFavouriteHero()
+    globalSettings.favoriteHeroes = await getHeroesFromDatabase(userId)
 
     let heroesToDisplay = null;
     heroesToDisplay =
-        await fetch("http://localhost:5000/requestHeroes", {
+        await fetch(`${useRoute}/requestHeroes`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -55,9 +55,10 @@ async function getHeroes(returnOnlyValidatedData = false){
 
 function displayHeroes(validatedHeroes){
     
+    var userId = firebase.auth().currentUser.uid
+
     let data = validatedHeroes
     let backupData = validatedHeroes
-   
 
     const display = document.querySelector(".display_container")
     const limit = calculateScreenSize()
@@ -70,26 +71,30 @@ function displayHeroes(validatedHeroes){
               }
         },
 
-        renderHeroes(){
+        async renderHeroes(){
             const displayCondition1 = limit * globalSettings.paginationCounter
             const displayCondition2 = limit * (globalSettings.paginationCounter + 1)
-
+            
+          
             if(globalSettings.renderFavorites === true){
                 data = updateFavouriteHeroData()
-               
+                
             }else{
                 data = backupData
             }
+            
             
             data.forEach(async(hero,index) =>{
                 
                 const requestNewDataFromMarvelApi = displayCondition2 >= data.length-1 && 
                                                     index === data.length-2 && 
-                                                    globalSettings.renderFavorites === false 
+                                                    globalSettings.renderFavorites === false &&
+                                                    globalSettings.production === false
                             
                 const displaystoredData =  index >= displayCondition1  && 
                                            index < displayCondition2 || 
-                                           globalSettings.renderFavorites === true
+                                           globalSettings.renderFavorites === true &&
+                                           globalSettings.production === false
                 
                 const heroIsFavorited = globalSettings.favoriteHeroes.some(favHero=>{
                     return hero.id === parseInt(favHero[0])
@@ -101,12 +106,13 @@ function displayHeroes(validatedHeroes){
                    
                 } else if(displaystoredData){
                     injectHeroes(hero, display, heroIsFavorited)
-                }
+
+                } 
             });//end forEach  
         },//end method
 
        async refreshFavorites(){
-            globalSettings.favoriteHeroes = await getFavouriteHero()
+            globalSettings.favoriteHeroes =  await getHeroesFromDatabase(userId)
         }
     }
 }
@@ -168,3 +174,4 @@ function injectHeroes(hero, display, heroIsFavorited){
     
     display.appendChild(heroCard)
 }
+

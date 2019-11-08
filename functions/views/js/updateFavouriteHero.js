@@ -3,7 +3,7 @@ async function updateFavouriteHero(uniqueHeroId, heroName, heroImg){
     const database = firebase.firestore();
     const userId = firebase.auth().currentUser.uid
 
-    const favHeroes = await getFavouriteHero()
+    const favHeroes = await getHeroesFromDatabase(userId)
     
     const itExistsInDatabase = 
         favHeroes.some(hero =>{
@@ -33,15 +33,15 @@ async function updateFavouriteHero(uniqueHeroId, heroName, heroImg){
     } 
 
     globalSettings.favoriteHeroes = null
-    globalSettings.favoriteHeroes = await getFavouriteHero()
+    globalSettings.favoriteHeroes = await getHeroesFromDatabase(userId)
 }
 
-async function getFavouriteHero(){
+async function getHeroesFromDatabase(collectionName){
     const database = firebase.firestore();
-    const userId = firebase.auth().currentUser.uid
+   
     let resultArr = []
 
-    await database.collection(userId).get()
+    await database.collection(collectionName).get()
             .then(snap =>{
                 snap.forEach(doc => {
                     const result = doc.data()
@@ -52,4 +52,7 @@ async function getFavouriteHero(){
      
     return resultArr
 }
+
+
+
 

@@ -15,7 +15,7 @@
 function redirectAfterLogin(data){
     ( async () => {
        const destination =
-        await fetch("http://localhost:5000/home", {
+        await fetch(`http://localhost:5000/home`, {
           method: 'POST',
           headers: {
             'Accept': 'application/json',

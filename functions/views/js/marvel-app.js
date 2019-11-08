@@ -13,7 +13,12 @@ let globalSettings ={
     favoriteHeroes: null,
     renderFavorites: false,
     isNavigationVisible: true,
+    production: false,
+    localRoute: "http://localhost:5000",
+    productionRoute: "https://marvelousproject-b02cb.firebaseapp.com", 
 }
+
+const useRoute = globalSettings.production ? globalSettings.productionRoute : globalSettings.localRoute
 
 function checkIfLoggedIn(){
     firebase.auth().onAuthStateChanged(async (user) => {
@@ -66,26 +71,34 @@ function checkIfLoggedIn(){
             
             myFavorites.addEventListener("click", async (e)=>{
                 e.stopPropagation()
+               
+                if(!globalSettings.renderFavorites){
+                    toggleNavigationButtons()
+                }
                 globalSettings.renderFavorites = true
+                globalSettings.isNavigationVisible = false
 
-                toggleNavigationButtons()
                 updateView()
             })
             
             allHeroes.addEventListener("click", async (e)=>{
                 e.stopPropagation()
-                globalSettings.renderFavorites = false
                 
-                if(globalSettings.isNavigationVisible){
+                if(!globalSettings.isNavigationVisible){
                     toggleNavigationButtons()
+                    globalSettings.renderFavorites = false
+                    globalSettings.isNavigationVisible = true
                 }
+                
+
                 updateView()
             })
 
             
 
         } else {
-            window.location.href=("http://localhost:5000/login")
+            
+            window.location.href=(`${useRoute}/login`)
         }
     })
 }
