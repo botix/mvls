@@ -1,0 +1,35 @@
+{
+  "name": "mvls",
+  "version": "1.0.0",
+  "description": "A simple app that renders marvel heroes. Requires GoogleFirebase to be run",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --config webpack.config.js --open",
+    "build": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/botix/mvls.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/botix/mvls/issues"
+  },
+  "homepage": "https://github.com/botix/mvls#readme",
+  "dependencies": {
+    "react": "16.12.0",
+    "react-dom": "16.12.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.7.4",
+    "@babel/preset-react": "7.7.4",
+    "babel-loader": "8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "4.41.2",
+    "webpack-cli": "3.3.10",
+    "webpack-dev-server": "^3.9.0"
+  }
+}
