@@ -91,7 +91,7 @@ function displayHeroes(validatedHeroes){
                                                     globalSettings.renderFavorites === false &&
                                                     globalSettings.production === false
                             
-                const displaystoredData =  index >= displayCondition1  && 
+                const displayStoredData =  index >= displayCondition1  && 
                                            index < displayCondition2 || 
                                            globalSettings.renderFavorites === true &&
                                            globalSettings.production === false
@@ -104,7 +104,7 @@ function displayHeroes(validatedHeroes){
                     resetDisplayVariables()
                     backupData = await getHeroes(true)
                    
-                } else if(displaystoredData){
+                } else if(displayStoredData){
                     injectHeroes(hero, display, heroIsFavorited)
 
                 } 
@@ -154,7 +154,7 @@ function updateFavouriteHeroData(){
 function injectHeroes(hero, display, heroIsFavorited){
     const heroCard = document.createElement("div")
     let imageUrl = globalSettings.renderFavorites === false ?
-                     `${hero.path}/portrait_xlarge.jpg` : hero.path
+                    `${hero.path}/portrait_xlarge.jpg` : hero.path
 
     const favoritedHeroModifier = heroIsFavorited ? "favorited_hero_card_modifier" : ""
     
