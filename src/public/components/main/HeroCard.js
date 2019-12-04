@@ -14,8 +14,8 @@ class HeroCard extends Component{
 } 
 
 const itemStyle = {
-  color: "#FFF",
-  backgroundColor: "#777777"  
+  color: "#000",
+  // backgroundColor: "#777777"  
 }
 
 

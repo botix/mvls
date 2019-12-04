@@ -3,9 +3,14 @@ import React from "react";
 class Logo extends React.PureComponent{
   render(){
     return(
-      <div>LOGO HERE</div>
+      <div style = {logoStyle}>Marvel Superheroes</div>
     )
   }
 }
 
 export default Logo;
+
+const logoStyle = {
+  color: "#7FDBFF",
+  padding: "1rem"
+}

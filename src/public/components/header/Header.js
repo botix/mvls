@@ -6,7 +6,7 @@ import Navigation from "./Navigation";
 class Header extends React.PureComponent{
   render(){
     return(
-      <header>
+      <header style = {headerStyle}>
         <Logo />
         <Navigation />
       </header>
@@ -15,3 +15,13 @@ class Header extends React.PureComponent{
 }
 
 export default Header;
+
+const headerStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  backgroundColor: "#001f3f",
+  fontSize: "2rem",
+  minHeight: "4rem",
+}
+

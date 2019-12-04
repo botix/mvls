@@ -5,7 +5,7 @@ import DisplayHeroContainer from "./DisplayHeroContainer";
 class Main extends React.PureComponent{
   render(){
     return(
-      <main>
+      <main style = {mainStyle}>
         <DisplayHeroContainer heroCardData = {this.props}/>
       </main>
     )
@@ -13,3 +13,7 @@ class Main extends React.PureComponent{
 }
 
 export default Main;
+
+const mainStyle = {
+  backgroundColor: "#FFF",
+}

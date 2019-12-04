@@ -1,11 +1,11 @@
 import React from 'react';
 import * as firebase from 'firebase';
 import * as firebaseui from 'firebaseui';
-//import './App.css'
 
 import Header from "./header/Header";
 import Main from "./main/Main";
 import Footer from "./footer/Footer";
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyDiCsuJLrOHRjIVMf96v7h1XxMdr0sCb20",
@@ -110,12 +110,12 @@ class App extends React.Component {
           </pre>
         </header>
         
-        <div>
+        <div className = "app-wrapper">
           <Header />
           <Main 
-          color = {this.state.color}
-          somethingINeed = {this.state.help}
-          heroes = {this.state.heroes}/>
+            color = {this.state.color}
+            somethingINeed = {this.state.help}
+            heroes = {this.state.heroes}/>
           <Footer />
         </div>
       </div>
