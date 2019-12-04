@@ -1,10 +1,12 @@
 import React from 'react';
+import { BrowserRouter as Router, Route} from "react-router-dom"
 import * as firebase from 'firebase';
 import * as firebaseui from 'firebaseui';
 
 import Header from "./header/Header";
 import Main from "./main/Main";
 import Footer from "./footer/Footer";
+import FavoriteHeroes from "../components/pages/FavoriteHeroes"
 
 
 const firebaseConfig = {
@@ -89,6 +91,7 @@ class App extends React.Component {
 
   render() {
     return (
+      <Router>
       <div className="App">
         <header className="App-header">
           <pre>{this.state.user && this.state.user.displayName}</pre>
@@ -112,13 +115,22 @@ class App extends React.Component {
         
         <div className = "app-wrapper">
           <Header />
-          <Main 
-            color = {this.state.color}
-            somethingINeed = {this.state.help}
-            heroes = {this.state.heroes}/>
+          <Route exact path = "/" >
+            <Main 
+              color = {this.state.color}
+              somethingINeed = {this.state.help}
+              heroes = {this.state.heroes}/>
+          </Route>
+          <Route path = "/favoriteheroes">
+            <Main 
+              color = {this.state.color}
+              somethingINeed = {this.state.help}
+              heroes = {this.state.heroes}/>  
+          </Route>
           <Footer />
         </div>
-      </div>
+        </div>
+      </Router>
     )
   }
 }
