@@ -1,7 +1,11 @@
-import React from 'react'
-import * as firebase from 'firebase'
-import * as firebaseui from 'firebaseui'
+import React from 'react';
+import * as firebase from 'firebase';
+import * as firebaseui from 'firebaseui';
 //import './App.css'
+
+import Header from "./header/Header";
+import Main from "./main/Main";
+import Footer from "./footer/Footer";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDiCsuJLrOHRjIVMf96v7h1XxMdr0sCb20",
@@ -21,7 +25,10 @@ class App extends React.Component {
     super()
 
     this.state = {
-      user: null
+      user: null,
+      heroes: null,
+      color: "red",
+      help: "Every moment now!!"
     }
 
     const uiConfig = {
@@ -59,22 +66,31 @@ class App extends React.Component {
         favorite: [1, 2, 6]
       })
   }
+  
+
+  componentDidMount(){
+    //request hero data, filter for stuff missing the picture, and other data
+    //use setState() to add it to state
+    this.setState({ 
+      heroes: [{
+        name: "Chronos",
+        age: "Yes!",
+        key: "123123123"
+      },
+      {
+        name: "Yvanna",
+        age: "As the trees",
+        key: "42352435234534"
+      }]
+    })
+  }
+
+
 
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
           <pre>{this.state.user && this.state.user.displayName}</pre>
           {this.state.user && <button onClick={this.signOut}>Sign out</button>}
           {this.state.user && (
@@ -83,7 +99,25 @@ class App extends React.Component {
             </button>
           )}
           <div id="firebaseui-auth-container"></div>
+          
+          <pre> {this.state.user && this.state.heroes.map(hero =>{
+            return (
+            <div key={hero.id}>
+              <p>Name: {hero.name}</p>
+              <p>Age: {hero.age}</p>
+            </div>)
+          })}
+          </pre>
         </header>
+        
+        <div>
+          <Header />
+          <Main 
+          color = {this.state.color}
+          somethingINeed = {this.state.help}
+          heroes = {this.state.heroes}/>
+          <Footer />
+        </div>
       </div>
     )
   }

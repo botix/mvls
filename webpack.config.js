@@ -25,8 +25,18 @@ module.exports = {
           query: {
             presets:["@babel/preset-react"]
           }
+        },
+        {
+          test:/\.css$/,
+          use:[
+            "style-loader", 
+            "css-loader"
+          ]
         }
       ]
     },
     devtool: "source-map",
 }
+
+
+
