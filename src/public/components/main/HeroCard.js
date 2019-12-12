@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
 export const Card = props => (
   <div
@@ -38,4 +39,10 @@ const heroNameStyle = {
   "fontWeight": "bold",
   "fontSize": "1.25rem",
   "textAlign": "center"
+};
+
+Card.propTypes = {
+  hero: PropTypes.object,
+  handleFavorite: PropTypes.func,
+  favoriteHeroList: PropTypes.array
 };

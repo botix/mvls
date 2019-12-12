@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 import "./navigation.css";
 
@@ -24,3 +25,7 @@ class Navigation extends React.PureComponent{
 }
 
 export default Navigation;
+
+Navigation.propTypes = {
+  signOut: PropTypes.func
+};
