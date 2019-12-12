@@ -1,27 +1,40 @@
-import React, {Component} from "react";
+import React from "react";
+
+export const Card = props => (
+  <div style = {cardStyle} onClick = {props.handleFavorite} title={props.hero.name}>
+    <img
+      alt="hero-image"
+      src={`${props.hero.thumbnail.path}/standard_xlarge.${props.hero.thumbnail.extension}`}
+      style={imgStyle}
+      title={props.hero.name}
+    />
+    <h2 style = {heroNameStyle} title={props.hero.name}> {props.hero.name} </h2>
+    <p title={props.hero.name}> {props.hero.description} </p>
+  </div>
+);
 
 
-class HeroCard extends Component{
+const cardStyle = {
+  "display": "flex",
+  "flexDirection": "column",
+  "alignItems": "center",
+  "backgroundColor": "#95dada",
+  "border": "1px solid gray",
+  "bordeRadius": ".25rem",
+  "margin": "0.5rem",
+  "padding": "1rem",
+  "cursor": "pointer"
+};
 
-  render(){
-    return(
-      <div style={itemStyle}>
-        <p>Hello from HeroCard the color of wich is {this.props.color}</p>
-        <p>Lets suppose we need to go back, and fetch something else from state such as {this.props.somethingINeed}</p>
-      </div>
-    )
-  }
-} 
+const imgStyle = {
 
-const itemStyle = {
-  color: "#000",
-  // backgroundColor: "#777777"  
-}
+  "marginBottom": ".5rem",
+  "maxWidth": "200px"
+};
 
-
-export default HeroCard;
-
-
-
-
-// TypeCheck za propsove koje dolaze
+const heroNameStyle = {
+  "marginBottom": ".5rem",
+  "fontWeight": "bold",
+  "fontSize": "1.25rem",
+  "textAlign": "center"
+};

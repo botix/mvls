@@ -1,14 +1,16 @@
 import React from "react";
 
-import Logo from "./Logo";
-import Navigation from "./Navigation";
+import Logo from "./Logo/Logo";
+import Navigation from "./Navigation/Navigation";
+
+import "./header.css"
 
 class Header extends React.PureComponent{
   render(){
     return(
-      <header style = {headerStyle}>
+      <header className = "app-header">
         <Logo />
-        <Navigation />
+        <Navigation signOut = {this.props.signOut}/>
       </header>
     )
   }
@@ -16,12 +18,4 @@ class Header extends React.PureComponent{
 
 export default Header;
 
-const headerStyle = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  backgroundColor: "#001f3f",
-  fontSize: "2rem",
-  minHeight: "4rem",
-}
 

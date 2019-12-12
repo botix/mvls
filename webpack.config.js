@@ -6,7 +6,7 @@ module.exports = {
     mode: "development",
     entry: path.resolve(__dirname, "src", "public", "js", "main.js"),
     output: {
-      path: path.resolve(__dirname, "dist"),
+      path: path.resolve(__dirname, "public"),
       filename: "bundle.js"
     },
 
@@ -35,7 +35,7 @@ module.exports = {
         }
       ]
     },
-    devtool: "source-map",
+    //devtool: "source-map",
 }
 
 

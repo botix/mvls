@@ -1,12 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Route} from "react-router-dom"
+import { BrowserRouter as Router, Route} from "react-router-dom";
 import * as firebase from 'firebase';
 import * as firebaseui from 'firebaseui';
 
 import Header from "./header/Header";
-import Main from "./main/Main";
 import Footer from "./footer/Footer";
-import FavoriteHeroes from "../components/pages/FavoriteHeroes"
+import { HeroList } from "./main/HeroList";
+import { Pagination } from "./main/Pagination";
 
 
 const firebaseConfig = {
@@ -29,8 +29,11 @@ class App extends React.Component {
     this.state = {
       user: null,
       heroes: null,
-      color: "red",
-      help: "Every moment now!!"
+      limit: 100,
+      offset: 0,
+      favoritedHeroes: [], 
+      currentPage: 1,
+      isLoading: false
     }
 
     const uiConfig = {
@@ -49,87 +52,141 @@ class App extends React.Component {
     }
 
     firebase.auth().onAuthStateChanged(user => {
-      this.setState({ user })
       if (!user) {
         ui.start('#firebaseui-auth-container', uiConfig)
+      } else {
+        this.setState({ user })
+        this.getFavoriteHeroes(user.uid)
       }
-    })
+    });
+
+    this.signOut = this.signOut.bind(this);
+    this.changePage = this.changePage.bind(this);
+    this.handleFavorite = this.handleFavorite.bind(this);
+    
   }
 
   signOut() {
     firebase.auth().signOut()
+    this.setState({ user: null })
+  };
+
+  changePage(e){
+    const page = parseInt(e.target.id);
+    this.setState({ 
+      offset: (page-1)*100,
+      currentPage: page 
+    });
+
+    this.getAndValidateHeroes();
   }
 
-  favoriteHero() {
+  async getFavoriteHeroes(collectionName){
     let db = firebase.app().firestore()
-    db.collection('userProfiles')
-      .doc(this.state.user.uid)
-      .set({
-        favorite: [1, 2, 6]
-      })
+    let resultArr = []
+
+    await db.collection(collectionName).get()
+            .then(snap =>{
+                snap.forEach(doc => {
+                    const result = doc.data()
+                    resultArr.push(result)
+                })
+                return null
+            })
+
+    this.setState({favoritedHeroes: resultArr})
   }
-  
+
+  handleFavorite(e){
+    const favHero = this.state.heroes.filter(hero => hero.name === e.target.title);
+    this.getFavoriteHeroes(this.state.user.uid);
+    let db = firebase.app().firestore();
+    
+    const itIsAllreadyFavorite = this.state.favoritedHeroes.some(hero =>{
+      return hero.id === favHero[0].id;
+    })
+
+    if(itIsAllreadyFavorite){
+      db.collection(this.state.user.uid)
+      .doc(e.target.title)
+      .delete();
+
+    } else {
+      db.collection(this.state.user.uid)
+      .doc(e.target.title)
+      .set({
+        id: favHero[0].id,
+        name: favHero[0].name,
+        thumbnail: favHero[0].thumbnail,
+        description: favHero[0].description
+      });
+    }
+
+    this.getFavoriteHeroes(this.state.user.uid);
+  }
+
+  getAndValidateHeroes(){
+    const url = `https://gateway.marvel.com/v1/public/characters?orderBy=name&limit=${this.state.limit}&offset=${this.state.offset}&apikey=3ac63d151afdaaf89f0b996aff200cc1`
+    this.setState({ isLoading: true})
+
+    fetch(url)
+      .then(response => response.json())
+      .then(response => this.setState({ heroes: validateHeroes(response.data.results), isLoading: false })) 
+      .catch(err => console.error(err));
+
+    function validateHeroes(data){
+      let validatedHeroes = [];
+    
+      data.forEach(hero =>{
+        const noPicture = hero.thumbnail.path.match(/image_not_available/i)
+          if(!noPicture){
+            validatedHeroes.push(hero);
+          }
+        })
+    
+      return validatedHeroes  
+    }
+  }
 
   componentDidMount(){
-    //request hero data, filter for stuff missing the picture, and other data
-    //use setState() to add it to state
-    this.setState({ 
-      heroes: [{
-        name: "Chronos",
-        age: "Yes!",
-        key: "123123123"
-      },
-      {
-        name: "Yvanna",
-        age: "As the trees",
-        key: "42352435234534"
-      }]
-    })
+
+    this.getAndValidateHeroes();
+   
   }
-
-
 
   render() {
     return (
       <Router>
-      <div className="App">
-        <header className="App-header">
-          <pre>{this.state.user && this.state.user.displayName}</pre>
-          {this.state.user && <button onClick={this.signOut}>Sign out</button>}
-          {this.state.user && (
-            <button onClick={() => this.favoriteHero()}>
-              Make hero favorite
-            </button>
-          )}
+      {this.state.user === null &&
+        <div className="app-login">
+          <h2>You must login to view the content</h2>
           <div id="firebaseui-auth-container"></div>
-          
-          <pre> {this.state.user && this.state.heroes.map(hero =>{
-            return (
-            <div key={hero.id}>
-              <p>Name: {hero.name}</p>
-              <p>Age: {hero.age}</p>
-            </div>)
-          })}
-          </pre>
-        </header>
-        
+        </div>}
+      
+
+        {this.state.user &&
         <div className = "app-wrapper">
-          <Header />
+          <Header signOut = {this.signOut}/>
           <Route exact path = "/" >
-            <Main 
-              color = {this.state.color}
-              somethingINeed = {this.state.help}
-              heroes = {this.state.heroes}/>
+          {this.state.user && this.state.heroes && !this.state.isLoading &&
+          <div> 
+            <HeroList heroes = {this.state.heroes} handleFavorite = {this.handleFavorite}/>
+            <Pagination changePage = {this.changePage} currentPage = {this.state.currentPage}/>
+          </div>
+          }
           </Route>
           <Route path = "/favoriteheroes">
-            <Main 
-              color = {this.state.color}
-              somethingINeed = {this.state.help}
-              heroes = {this.state.heroes}/>  
-          </Route>
+           {this.state.user && this.state.favoritedHeroes && !this.state.isLoading &&
+            <HeroList heroes = {this.state.favoritedHeroes} handleFavorite = {this.handleFavorite}/>
+           }
+           </Route>
+          {this.state.user && this.state.isLoading &&
+          <div className = "loading">
+            Content Loading
+          </div>}
           <Footer />
         </div>
-        </div>
+        }
       </Router>
     )
   }

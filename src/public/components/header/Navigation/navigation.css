@@ -1,0 +1,42 @@
+
+.nav {
+    width: 50%;
+}
+
+.ul {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.link {
+    color: #add8e6;
+    text-decoration: none;
+    font-size: 1.75rem;
+}
+
+@media (max-width: 860px){
+    .nav{
+        width: 75%;
+    }
+
+    .ul{
+        margin: 0.5rem;
+    }
+  
+    .link{
+        font-size: 1.5rem;
+        padding: .25rem;
+        margin: .5rem;
+    }
+}
+
+@media (max-width: 600px){
+    .ul{
+        flex-direction: column;
+        align-items: center;
+    }
+    .link{
+        font-size: 1.25rem;
+        margin: .75rem;
+    }
+}

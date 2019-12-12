@@ -1,0 +1,24 @@
+
+.app-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #001f3f;
+  font-size: 2rem;
+  min-height: 4rem;
+  }
+
+
+@media (max-width: 860px){  
+  .app-header{
+    flex-direction: column;
+    min-height: 6rem;
+  }
+}
+
+
+@media (max-width: 600px){
+  .app-header{
+    position: sticky;
+  }
+}
