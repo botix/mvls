@@ -37,6 +37,6 @@ const footerTextStyle = {
 };
 
 const footerCreditsStyle = {
-  color: "#7FDBFF",
+  color: " #add8e6",
   fontSize: ".75rem",
 }

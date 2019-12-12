@@ -12,6 +12,7 @@
     color: #add8e6;
     text-decoration: none;
     font-size: 1.75rem;
+    cursor: pointer;
 }
 
 @media (max-width: 860px){

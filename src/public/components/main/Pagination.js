@@ -8,7 +8,7 @@ export const Pagination = props =>{
         const numberColor = props.currentPage === number ? "#8b0000" : "#777";
         return <li 
                 key={number} 
-                style = {{"color": numberColor, "margin":"0.2rem", "fontSize": "1.25rem"}} 
+                style = {{"color": numberColor, "margin":"0.2rem", "fontSize": "1.25rem", "cursor": "pointer"}} 
                 onClick={props.changePage} 
                 id={number}> {number} </li>
     })

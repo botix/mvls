@@ -1,6 +1,7 @@
 .logo{
-    color: #add8e6;
+    color: rgb(127, 219, 255);
     padding: 1rem;
+    text-align: center;
 }
 
 @media (max-width: 680px){

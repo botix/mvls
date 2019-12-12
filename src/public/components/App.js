@@ -98,13 +98,12 @@ class App extends React.Component {
   }
 
   handleFavorite(e){
-    const favHero = this.state.heroes.filter(hero => hero.name === e.target.title);
-    this.getFavoriteHeroes(this.state.user.uid);
-    let db = firebase.app().firestore();
     
-    const itIsAllreadyFavorite = this.state.favoritedHeroes.some(hero =>{
-      return hero.id === favHero[0].id;
-    })
+    let db = firebase.app().firestore();
+    this.getFavoriteHeroes(this.state.user.uid);
+
+    const favHero = this.state.heroes.filter(hero => hero.name === e.target.title);
+    const itIsAllreadyFavorite = this.state.favoritedHeroes.some(hero => hero.name === e.target.title);
 
     if(itIsAllreadyFavorite){
       db.collection(this.state.user.uid)
@@ -125,11 +124,11 @@ class App extends React.Component {
     this.getFavoriteHeroes(this.state.user.uid);
   }
 
-  getAndValidateHeroes(){
+  async getAndValidateHeroes(){
     const url = `https://gateway.marvel.com/v1/public/characters?orderBy=name&limit=${this.state.limit}&offset=${this.state.offset}&apikey=3ac63d151afdaaf89f0b996aff200cc1`
     this.setState({ isLoading: true})
 
-    fetch(url)
+    await fetch(url)
       .then(response => response.json())
       .then(response => this.setState({ heroes: validateHeroes(response.data.results), isLoading: false })) 
       .catch(err => console.error(err));
@@ -157,36 +156,41 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-      {this.state.user === null &&
+      {this.state.user === null && !this.state.isLoading &&
         <div className="app-login">
           <h2>You must login to view the content</h2>
-          <div id="firebaseui-auth-container"></div>
         </div>}
-      
-
-        {this.state.user &&
+      {this.state.user === null &&
+        <div id="firebaseui-auth-container"></div>
+      }
+      {this.state.user && 
         <div className = "app-wrapper">
           <Header signOut = {this.signOut}/>
           <Route exact path = "/" >
           {this.state.user && this.state.heroes && !this.state.isLoading &&
-          <div> 
-            <HeroList heroes = {this.state.heroes} handleFavorite = {this.handleFavorite}/>
+            <div> 
+            <HeroList heroes = {this.state.heroes} handleFavorite = {this.handleFavorite} favoriteHeroList = {this.state.favoritedHeroes}/>
             <Pagination changePage = {this.changePage} currentPage = {this.state.currentPage}/>
-          </div>
+            </div>
           }
           </Route>
           <Route path = "/favoriteheroes">
-           {this.state.user && this.state.favoritedHeroes && !this.state.isLoading &&
-            <HeroList heroes = {this.state.favoritedHeroes} handleFavorite = {this.handleFavorite}/>
-           }
+            {this.state.user && this.state.favoritedHeroes && !this.state.isLoading &&
+              <HeroList heroes = {this.state.favoritedHeroes} handleFavorite = {this.handleFavorite} favoriteHeroList = {this.state.favoritedHeroes}/>
+            }
+            {this.state.user && this.state.favoritedHeroes.length === 0 && !this.state.isLoading &&
+              <div className = "info no-favorites">
+                Click on a hero to add it to favorites, and it will be displayed here!
+              </div>
+            }
            </Route>
           {this.state.user && this.state.isLoading &&
-          <div className = "loading">
-            Content Loading
-          </div>}
+            <div className = "info loading">
+              Loading...
+            </div>}
           <Footer />
         </div>
-        }
+      }
       </Router>
     )
   }

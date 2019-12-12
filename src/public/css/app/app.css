@@ -12,21 +12,30 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 50vh;
+    justify-content: flex-end;
+    height: 40vh;
 }
 
 .app-login h2{
     font-size: 1.5rem;
     margin-bottom: 2rem;
     color: #777;
+    text-align: center;
 }
 
-.loading{
+.info{
     height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 4rem;
+    text-align: center;
     color: #777;
+}
+
+.loading{
+    font-size: 4rem;
+}
+
+.no-favorites{
+    font-size: 2.5rem;
 }

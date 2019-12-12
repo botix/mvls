@@ -1,30 +1,31 @@
 import React from "react";
 
 export const Card = props => (
-  <div style = {cardStyle} onClick = {props.handleFavorite} title={props.hero.name}>
+  <div
+    onClick = {props.handleFavorite} 
+    title={props.hero.name}
+    style = {{
+      "display": "flex",
+      "flexDirection": "column",
+      "alignItems": "center",
+      "backgroundColor": props.favoriteHeroList.some(favorite => favorite.name === props.hero.name) ? "#b29700" :"#95dada",
+      "border": "1px solid gray",
+      "bordeRadius": ".25rem",
+      "margin": "0.5rem",
+      "padding": "1rem",
+      "cursor": "pointer"
+    }} 
+  > 
     <img
       alt="hero-image"
       src={`${props.hero.thumbnail.path}/standard_xlarge.${props.hero.thumbnail.extension}`}
-      style={imgStyle}
       title={props.hero.name}
+      style={imgStyle}
     />
     <h2 style = {heroNameStyle} title={props.hero.name}> {props.hero.name} </h2>
     <p title={props.hero.name}> {props.hero.description} </p>
   </div>
 );
-
-
-const cardStyle = {
-  "display": "flex",
-  "flexDirection": "column",
-  "alignItems": "center",
-  "backgroundColor": "#95dada",
-  "border": "1px solid gray",
-  "bordeRadius": ".25rem",
-  "margin": "0.5rem",
-  "padding": "1rem",
-  "cursor": "pointer"
-};
 
 const imgStyle = {
 

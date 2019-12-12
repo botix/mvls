@@ -5,7 +5,12 @@ export const HeroList = props => (
 
   <div style ={heroListStyle}>
     {props.heroes.map(hero => (
-      <Card key={hero.id} hero={hero} handleFavorite={props.handleFavorite}/>
+      <Card 
+        key={hero.id} 
+        hero={hero} 
+        handleFavorite={props.handleFavorite}
+        favoriteHeroList={props.favoriteHeroList}
+      />
     ))}
   </div>
 

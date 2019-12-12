@@ -9,10 +9,10 @@ class Navigation extends React.PureComponent{
         <nav className = "nav">
           <ul className = "ul">
             <li>
-              <Link to="/" className = "link">Hero Index</Link>
+              <Link to="/" className = "link">Heroes</Link>
             </li>
             <li>
-              <Link to ="/favoriteheroes" className = "link">FavoriteHeroes</Link>
+              <Link to ="/favoriteheroes" className = "link">Favorites</Link>
             </li>
             <li>
               <Link to = "/" className = "link" onClick = {this.props.signOut}>Sign Out</Link>
