@@ -124,11 +124,11 @@ class App extends React.Component {
     this.getFavoriteHeroes(this.state.user.uid);
   }
 
-  async getAndValidateHeroes(){
+  getAndValidateHeroes(){
     const url = `https://gateway.marvel.com/v1/public/characters?orderBy=name&limit=${this.state.limit}&offset=${this.state.offset}&apikey=3ac63d151afdaaf89f0b996aff200cc1`
     this.setState({ isLoading: true})
 
-    await fetch(url)
+    fetch(url)
       .then(response => response.json())
       .then(response => this.setState({ heroes: validateHeroes(response.data.results), isLoading: false })) 
       .catch(err => console.error(err));
