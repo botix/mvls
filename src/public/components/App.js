@@ -76,9 +76,9 @@ class App extends React.Component {
     this.setState({ 
       offset: (page-1)*100,
       currentPage: page 
-    });
-
-    this.getAndValidateHeroes();
+      }, 
+      this.getAndValidateHeroes 
+    );
   }
 
   async getFavoriteHeroes(collectionName){
@@ -102,7 +102,7 @@ class App extends React.Component {
     let db = firebase.app().firestore();
     this.getFavoriteHeroes(this.state.user.uid);
 
-    const favHero = this.state.heroes.filter(hero => hero.name === e.target.title);
+    const favHero = this.state.heroes.filter(hero => hero.name === e.target.title)[0];
     const itIsAllreadyFavorite = this.state.favoritedHeroes.some(hero => hero.name === e.target.title);
 
     if(itIsAllreadyFavorite){
@@ -114,10 +114,10 @@ class App extends React.Component {
       db.collection(this.state.user.uid)
       .doc(e.target.title)
       .set({
-        id: favHero[0].id,
-        name: favHero[0].name,
-        thumbnail: favHero[0].thumbnail,
-        description: favHero[0].description
+        id: favHero.id,
+        name: favHero.name,
+        thumbnail: favHero.thumbnail,
+        description: favHero.description
       });
     }
 
@@ -127,11 +127,13 @@ class App extends React.Component {
   getAndValidateHeroes(){
     const url = `https://gateway.marvel.com/v1/public/characters?orderBy=name&limit=${this.state.limit}&offset=${this.state.offset}&apikey=3ac63d151afdaaf89f0b996aff200cc1`
     this.setState({ isLoading: true})
-
+    console.log(url)
     fetch(url)
       .then(response => response.json())
-      .then(response => this.setState({ heroes: validateHeroes(response.data.results), isLoading: false })) 
-      .catch(err => console.error(err));
+      .then(response => this.setState({ 
+        heroes: validateHeroes(response.data.results), 
+        isLoading: false })) 
+      .catch(err => console.error(err));  
 
     function validateHeroes(data){
       let validatedHeroes = [];
