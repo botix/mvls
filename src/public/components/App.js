@@ -127,7 +127,7 @@ class App extends React.Component {
   getAndValidateHeroes(){
     const url = `https://gateway.marvel.com/v1/public/characters?orderBy=name&limit=${this.state.limit}&offset=${this.state.offset}&apikey=3ac63d151afdaaf89f0b996aff200cc1`
     this.setState({ isLoading: true})
-    console.log(url)
+    
     fetch(url)
       .then(response => response.json())
       .then(response => this.setState({ 
