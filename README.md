@@ -1,6 +1,7 @@
 # mvls
 
 A simple app that displays marvel heroes. The heroes can be favorited.
+Hosted here: https://mvls-c5574.firebaseapp.com/
 
 To build localy:  
 - clone repo  
